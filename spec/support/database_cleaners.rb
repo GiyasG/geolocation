@@ -50,7 +50,7 @@ shared_context "db_cleanup_each" do |ar_strategy=:truncation|
     DatabaseCleaner.start
   end
   after(:each) do
-    Capybara.reset_sessions!  if self.class.metadata[:js]
+    Capybara.reset_sessions!  if self.class.metadata[:js] 
     #page.driver.clear_memory_cache
     DatabaseCleaner.clean
   end

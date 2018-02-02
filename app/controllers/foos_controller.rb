@@ -4,36 +4,38 @@ class FoosController < ApplicationController
 
   def index
     @foos = Foo.all
-    # render json: @foos
+    #render json: @foos
   end
 
   def show
-    # render json: @foo
+    #render json: @foo
   end
 
   def create
+    #sleep 2.5
     @foo = Foo.new(foo_params)
 
     if @foo.save
-      # render json: @foo, status: :created, location: @foo
+      #render json: @foo, status: :created, location: @foo
       render :show, status: :created, location: @foo
     else
-      # render json: @foo.errors, status: :unprocessable_entity
-      render :errors, status: :unprocessable_entity
+      render json: @foo.errors, status: :unprocessable_entity
     end
   end
 
   def update
+    @foo = Foo.find(params[:id])
+
     if @foo.update(foo_params)
       head :no_content
     else
-      # render json: @foo.errors, status: :unprocessable_entity
-      render :errors, status: :unprocessable_entity
+      render json: @foo.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
     @foo.destroy
+
     head :no_content
   end
 

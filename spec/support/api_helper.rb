@@ -5,13 +5,13 @@ module ApiHelper
 
   # automates the passing of payload bodies as json
   ["post", "put", "patch", "get", "head", "delete"].each do |http_method_name|
-    define_method("j#{http_method_name}") do |path,params={},headers={}|
+    define_method("j#{http_method_name}") do |path,params={},headers={}| 
       if ["post","put","patch"].include? http_method_name
         headers=headers.merge('content-type' => 'application/json') if !params.empty?
         params = params.to_json
       end
-      self.send(http_method_name,
-            path,
+      self.send(http_method_name, 
+            path, 
             params,
             headers.merge(access_tokens))
     end
@@ -49,7 +49,7 @@ module ApiHelper
   end
 
   def create_resource path, factory, status=:created
-    jpost path, FactoryGirl.attributes_for(factory)
+    jpost path, FactoryBot.attributes_for(factory)
     expect(response).to have_http_status(status) if status
     parsed_body
   end
@@ -79,7 +79,7 @@ module ApiHelper
 
   #returns a hash without the noisy content property
   def except_content original
-    if original[:image_content] && original[:image_content][:content]
+    if original[:image_content] && original[:image_content][:content] 
       clone=original.clone
       bytes=original[:image_content][:content].size
       clone[:image_content]=original[:image_content].clone
@@ -92,7 +92,7 @@ module ApiHelper
 end
 
 RSpec.shared_examples "resource index" do |model|
-  let!(:resources) { (1..5).map {|idx| FactoryGirl.create(model) } }
+  let!(:resources) { (1..5).map {|idx| FactoryBot.create(model) } }
   let!(:apply_roles) { apply_organizer user, resources }
   let(:payload) { parsed_body }
 
@@ -107,7 +107,7 @@ RSpec.shared_examples "resource index" do |model|
 end
 
 RSpec.shared_examples "show resource" do |model|
-  let(:resource) { FactoryGirl.create(model) }
+  let(:resource) { FactoryBot.create(model) }
   let!(:apply_roles) { apply_organizer user, resource }
   let(:payload) { parsed_body }
   let(:bad_id) { 1234567890 }
@@ -122,7 +122,7 @@ RSpec.shared_examples "show resource" do |model|
   it "returns not found when using incorrect ID" do
     jget send("#{model}_path", bad_id)
     expect(response).to have_http_status(:not_found)
-    expect(response.content_type).to eq("application/json")
+    expect(response.content_type).to eq("application/json") 
 
     payload=parsed_body
     expect(payload).to have_key("errors")
@@ -132,14 +132,14 @@ RSpec.shared_examples "show resource" do |model|
 end
 
 RSpec.shared_examples "create resource" do |model|
-  let(:resource_state) { FactoryGirl.attributes_for(model) }
+  let(:resource_state) { FactoryBot.attributes_for(model) }
   let(:payload)        { parsed_body }
   let(:resource_id)    { payload["id"] }
 
   it "can create valid #{model}" do
     jpost send("#{model}s_path"), resource_state
     expect(response).to have_http_status(:created)
-    expect(response.content_type).to eq("application/json")
+    expect(response.content_type).to eq("application/json") 
 
     # verify payload has ID and delegate for addition checks
     expect(payload).to have_key("id")
@@ -152,12 +152,12 @@ RSpec.shared_examples "create resource" do |model|
 end
 
 RSpec.shared_examples "modifiable resource" do |model|
-  let(:resource) do
-    jpost send("#{model}s_path"), FactoryGirl.attributes_for(model)
+  let(:resource) do 
+    jpost send("#{model}s_path"), FactoryBot.attributes_for(model)
     expect(response).to have_http_status(:created)
     parsed_body
   end
-  let(:new_state) { FactoryGirl.attributes_for(model) }
+  let(:new_state) { FactoryBot.attributes_for(model) }
 
   it "can update #{model}" do
       # change to new state
@@ -173,7 +173,7 @@ RSpec.shared_examples "modifiable resource" do |model|
 
     jdelete send("#{model}_path", resource["id"])
     expect(response).to have_http_status(:no_content)
-
+    
     jhead send("#{model}_path", resource["id"])
     expect(response).to have_http_status(:not_found)
   end

@@ -19,19 +19,17 @@ class ApplicationController < ActionController::API
       }
       render :json=>payload, :status=>status
     end
-    def record_not_found(exception)
+    def record_not_found(exception) 
       full_message_error "cannot find id[#{params[:id]}]", :not_found
       Rails.logger.debug exception.message
     end
-
-    def mongoid_validation_error(exception)
+    def mongoid_validation_error(exception) 
       payload = { errors:exception.record.errors.messages }
       render :json=>payload, :status=>:unprocessable_entity
       Rails.logger.debug exception.message
     end
 
-
-    def missing_parameter(exception)
+    def missing_parameter(exception) 
       payload = {
         errors: { full_messages:["#{exception.message}"] }
       }
@@ -41,7 +39,7 @@ class ApplicationController < ActionController::API
 
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-    end
+    end 
 
     def user_not_authorized(exception)
       user=pundit_user ? pundit_user.uid : "Anonymous user"

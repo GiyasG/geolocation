@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Bar API", type: :request do
   include_context "db_cleanup_each"
+  let(:user) { login signup(FactoryBot.attributes_for(:user)) }
 
   context "caller requests list of Bars" do
     it_should_behave_like "resource index", :bar do
@@ -29,7 +30,7 @@ RSpec.describe "Bar API", type: :request do
   context "create a new Bar" do
     it_should_behave_like "create resource", :bar do
       let(:response_check) {
-        # pp payload
+        #pp payload
         expect(payload).to have_key("name")
         expect(payload["name"]).to eq(resource_state[:name])
 
@@ -43,9 +44,9 @@ RSpec.describe "Bar API", type: :request do
     it_should_behave_like "modifiable resource", :bar do
       let(:update_check) {
         #verify name is not yet the new name
-        expect(resource.name).to_not eq(new_state[:name])
+        expect(resource["name"]).to_not eq(new_state[:name])
         # verify DB has instance updated with name
-        expect(Bar.find(resource.id).name).to eq(new_state[:name])
+        expect(Bar.find(resource["id"]).name).to eq(new_state[:name])
       }
     end
   end

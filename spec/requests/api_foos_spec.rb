@@ -40,7 +40,7 @@ RSpec.describe "Foo API", type: :request do
       get foo_path(bad_id)
       #pp parsed_body
       expect(response).to have_http_status(:not_found)
-      expect(response.content_type).to eq("application/json")
+      expect(response.content_type).to eq("application/json") 
 
       payload=parsed_body
       expect(payload).to have_key("errors")
@@ -56,7 +56,7 @@ RSpec.describe "Foo API", type: :request do
       jpost foos_path, foo_state
       #pp parsed_body
       expect(response).to have_http_status(:created)
-      expect(response.content_type).to eq("application/json")
+      expect(response.content_type).to eq("application/json") 
 
       #check the payload of the response
       payload=parsed_body

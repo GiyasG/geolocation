@@ -57,7 +57,7 @@ RSpec.describe "Image Geolocation", type: :model do
     it "finds within range ordered" do
       range=Image.within(13*69,:origin=>origin).by_distance(:origin=>origin)
       last_distance=0
-      range.each do |img|
+      range.each do |img| 
         expect(distance=img.distance_from(origin)).to be <= 13*69
         expect(last_distance).to be <= distance
         last_distance = distance
@@ -82,7 +82,7 @@ RSpec.describe "Image Geolocation", type: :model do
         thing=FactoryBot.create(:thing)
         point=Point.new(0,90-idx)
         image=FactoryBot.create(:image,:image_content=>nil,:position=>point)
-        FactoryBot.create(:thing_image, :thing=>thing, :image=>image,
+        FactoryBot.create(:thing_image, :thing=>thing, :image=>image, 
                                                         :priority=>idx%2)
       end
     end
@@ -111,11 +111,11 @@ RSpec.describe "Image Geolocation", type: :model do
     it "finds Thing near primary Image" do
       #establish expected result
       primary_in_range=0;
-      ThingImage.all.each {|ti|
+      ThingImage.all.each {|ti| 
         if (ti.priority==0 && ti.image.distance_from(origin) <= 10*69)
           primary_in_range+=1
-        end
-      }
+        end    
+      } 
       expect(primary_in_range).to be <= ThingImage.count/2
 
       near = ThingImage.joins(:image)

@@ -1,5 +1,5 @@
 FactoryBot.define do
-
+  
   factory :point do
     transient do
       lng { Faker::Number.negative(-77.0,-76.0).round(6) }
@@ -35,9 +35,9 @@ FactoryBot.define do
   factory :location do
     address           { FactoryBot.build(:postal_address) }
     position          { FactoryBot.build(:point) }
-    formatted_address {
+    formatted_address { 
       street_no=address.street_address.match(/^(\d+)/)[1]
-      "#{street_no} N Charles St, Baltimore, MD 21218, USA"
+      "#{street_no} N Charles St, Baltimore, MD 21218, USA" 
     }
     initialize_with { Location.new(formatted_address,position,address) }
 

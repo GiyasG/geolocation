@@ -11,7 +11,6 @@ class Image < ActiveRecord::Base
               mapping: [%w(lng lng), %w(lat lat)]
 
   acts_as_mappable
-  
   def to_lat_lng
     Geokit::LatLng.new(lat,lng)
   end

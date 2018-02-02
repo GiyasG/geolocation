@@ -20,7 +20,7 @@ var browserSync = require('browser-sync').create();
 
 
 //where we place out source code
-var srcPath =  "client/src";
+var srcPath =  "client/src";  
 //where any processed code or vendor files gets placed for use in development
 var buildPath = "client/build";
 //location to place vendor files for use in development
@@ -35,8 +35,8 @@ var cfg={
   root_html : { src: srcPath + "/index.html",   bld: buildPath },
   css :       { src: srcPath + "/stylesheets/**/*.css", bld: buildPath + "/stylesheets" },
   js :        { src: srcPath + "/javascripts/**/*.js" },
-  html :      { src: [srcPath + "/**/*.html", "!"+srcPath + "/*.html"]},
-
+  html :      { src: [srcPath + "/**/*.html", "!"+srcPath + "/*.html"]}, 
+  
   //vendor css src globs
   bootstrap_sass:     { src: bowerPath + "/bootstrap-sass/assets/stylesheets/" },
 
@@ -48,12 +48,12 @@ var cfg={
   bootstrap_js:      { src: bowerPath + "/bootstrap-sass/assets/javascripts/bootstrap.js" },
   angular:           { src: bowerPath + "/angular/angular.js" },
   angular_ui_router: { src: bowerPath + "/angular-ui-router/release/angular-ui-router.js" },
-  angular_resource:  { src: bowerPath + "/angular-resource/angular-resource.js" },
+  angular_resource:  { src: bowerPath + "/angular-resource/angular-resource.js" },   
 
-  //vendor build locations
+  //vendor build locations 
   vendor_js :    { bld: vendorBuildPath + "/javascripts" },
   vendor_css :   { bld: vendorBuildPath + "/stylesheets" },
-  vendor_fonts : { bld: vendorBuildPath + "/stylesheets/fonts" },
+  vendor_fonts : { bld: vendorBuildPath + "/stylesheets/fonts" }, 
 
   apiUrl: { dev: "http://localhost:3000",
             prd: "https://glacial-earth-69618.herokuapp.com"},
@@ -68,7 +68,7 @@ var devResourcePath = [
     srcPath,
     srcPath+"/javascripts",
     srcPath+"/stylesheets",
-    ];
+    ];    
 
 //remove all files below the build area
 gulp.task("clean:build", function() {
@@ -155,7 +155,7 @@ gulp.task("run", ["build", "browserSync"], function (){
 gulp.task("dist:assets", ["build"], function(){
   return gulp.src(cfg.root_html.src).pipe(debug())
     .pipe(useref({ searchPath: devResourcePath }))
-    .pipe(gulpif(["**/*constant.js"], replace(cfg.apiUrl.dev,cfg.apiUrl.prd))) //change URLs
+    .pipe(gulpif(["**/*.js"], replace(cfg.apiUrl.dev,cfg.apiUrl.prd))) //change URLs
     .pipe(gulpif(["**/*.js"], uglify()))  //minify JS
     .pipe(gulpif(["**/*.css"], cssMin())) //minify CSS
     .pipe(gulp.dest(distPath)).pipe(debug());
@@ -169,7 +169,7 @@ gulp.task("dist:fonts", function(){
 
 //build/copy over HTML resources into dist tree
 gulp.task("dist:html", function(){
-  return gulp.src(cfg.html.src).pipe(debug())
+  return gulp.src(cfg.html.src, {base: srcPath+"/javascripts"}).pipe(debug())
     .pipe(htmlMin({collapseWhitespace: true})) //minify HTML
     .pipe(gulp.dest(distPath)).pipe(debug());
 });

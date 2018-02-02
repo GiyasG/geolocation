@@ -4,18 +4,18 @@ class BarsController < ApplicationController
 
   def index
     @bars = Bar.all
-    # render json: @bars
+    #render json: @bars
   end
 
   def show
-    #  render json: @bar
+    #render json: @bar
   end
 
   def create
     @bar = Bar.new(bar_params)
 
     if @bar.save
-      # render json: @bar, status: :created, location: @bar
+      #render json: @bar, status: :created, location: @bar
       render :show, status: :created, location: @bar
     else
       render json: @bar.errors, status: :unprocessable_entity
@@ -23,6 +23,8 @@ class BarsController < ApplicationController
   end
 
   def update
+    @bar = Bar.find(params[:id])
+
     if @bar.update(bar_params)
       head :no_content
     else
@@ -32,6 +34,7 @@ class BarsController < ApplicationController
 
   def destroy
     @bar.destroy
+
     head :no_content
   end
 

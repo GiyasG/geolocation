@@ -6,15 +6,15 @@ class Point
     @lat = lat
   end
 
-  def ==(rhs)
+  def ==(rhs) 
     !rhs ? false : (lng==rhs.lng && lat==rhs.lat)
   end
 
-  def ===(rhs)
+  def ===(rhs) 
     !rhs ? false : rnd(lng)==rnd(rhs.lng) && rnd(lat)==rnd(rhs.lat)
   end
 
-  def rnd(value)
+  def rnd(value) 
     !value ? nil : value.round(2)
   end
 

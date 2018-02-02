@@ -8,9 +8,8 @@ RSpec.describe "ImageContents", type: :request do
   context "lifecycle" do
     include_context "db_clean_after"
     it "generates sizes from original" do
-      pp except_content image_props
+      #pp except_content image_props
       jpost images_url, image_props
-      pp parsed_body
       expect(response).to have_http_status(:created)
       image=Image.find(parsed_body["id"])
       expect(ImageContent.image(image).count).to eq(5)
@@ -22,7 +21,7 @@ RSpec.describe "ImageContents", type: :request do
       image=Image.find(parsed_body["id"])
       get image_content_path(image.id)   #no need for credentials
       expect(response).to have_http_status(:ok)
-      pp response.header
+      #pp response.header
       expect(response.header["content-transfer-encoding"]).to eq("binary")
       expect(response.header["content-type"]).to eq("image/jpg")
       expect(response.header["content-disposition"]).to include("inline")
@@ -88,7 +87,7 @@ RSpec.describe "ImageContents", type: :request do
 
       it "supplies content_url in thing image response" do
         thing=FactoryBot.create(:thing)
-        thing.thing_images.create(:creator_id=>user["id"], :image=>@image)
+        thing.thing_images.create(:creator_id=>user["id"], :image=>@image) 
 
         jget thing_thing_images_url(thing)
         expect(response).to have_http_status(:ok)
@@ -119,8 +118,8 @@ RSpec.describe "ImageContents", type: :request do
 
   context "validation" do
     include_context "db_clean_after"
-    it_behaves_like "image requires parameter", :content
-    it_behaves_like "image requires parameter", :content_type
+    it_behaves_like "image requires parameter", :content 
+    it_behaves_like "image requires parameter", :content_type 
 
     it "image requires valid content" do
       start_count=Image.count
@@ -163,10 +162,10 @@ RSpec.describe "ImageContents", type: :request do
         content += decoded_pad
       end while content.size < ImageContent::MAX_CONTENT_SIZE
       image_props[:image_content][:content]=Base64.encode64(content)
-
-      pp "base64 size=#{content.size}"
+      
+      #pp "base64 size=#{content.size}"
       jpost images_url, image_props
-      pp parsed_body
+      #pp parsed_body
       expect(response).to have_http_status(:unprocessable_entity)
       payload=parsed_body
       expect(payload["errors"]).to include("content")
@@ -251,7 +250,6 @@ RSpec.describe "ImageContents", type: :request do
 
     it "issues ETag based on content" do
       get image_content_url(@image)
-      pp response.headers
       expect(response).to have_http_status(:ok)
       expect(response.header["ETag"]).to_not be_nil
       expect(response.header["ETag"]).to eq(%("#{Digest::MD5.hexdigest(ic.cache_key)}"))

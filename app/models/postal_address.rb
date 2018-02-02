@@ -10,8 +10,8 @@ class PostalAddress
   end
 
 
-  def ==(rhs)
-    !rhs ? false : (street_address==rhs.street_address &&
+  def ==(rhs) 
+    !rhs ? false : (street_address==rhs.street_address && 
                     city==rhs.city &&
                     state_code==rhs.state_code &&
                     zip==rhs.zip &&
@@ -19,7 +19,7 @@ class PostalAddress
   end
 
   def to_hash
-    {
+    { 
       street_address: @street_address,
       city: @city,
       state_code: @state_code,

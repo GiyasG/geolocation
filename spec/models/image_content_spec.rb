@@ -80,7 +80,7 @@ RSpec.describe "ImageContent", type: :model do
       ic=ImageContent.new(
         width:width,
         height:height,
-        content_type:"image/png",
+        content_type:"image/png", 
         content:fin)
       expect(ic.width).to eq(width)
       expect(ic.height).to eq(height)
@@ -98,7 +98,7 @@ RSpec.describe "ImageContent", type: :model do
       ic.image_id=nil
       expect(ic.validate).to be false
       expect(ic.errors.messages).to include(:image_id)
-      pp ic.errors.messages
+      #pp ic.errors.messages
     end
     it "requires content_type" do
       ic.content_type=nil
@@ -198,7 +198,7 @@ RSpec.describe "ImageContent", type: :model do
     include_context "db_scope"
     let(:image)         { FactoryBot.build(:image) }
     let(:image_content) { FactoryBot.build(:image_content) }
-    before(:each) do
+    before(:each) do 
       expect(defined? ImageContentCreator).to eq("constant")
       image.save   #generate an ID for image w/o saving content
     end

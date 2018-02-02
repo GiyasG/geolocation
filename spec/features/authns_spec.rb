@@ -15,13 +15,13 @@ RSpec.feature "Authns", type: :feature, :js=>true do
         #check the DB for the existance of the User account
         user=User.where(:email=>user_props[:email]).first
         #make sure we were the ones that created it
-        expect(user.created_at).to be > start_time
+        expect(user.created_at).to be > start_time        
       end
     end
 
     context "rejected registration" do
       before(:each) do
-        signup user_props
+        signup user_props 
         expect(page).to have_no_css("#signup-form")
       end
 
@@ -38,7 +38,7 @@ RSpec.feature "Authns", type: :feature, :js=>true do
       end
 
       scenario "displays error messages" do
-        bad_props=FactoryBot.attributes_for(:user,
+        bad_props=FactoryBot.attributes_for(:user, 
                                    :email=>user_props[:email],
                                    :password=>"123")
                             .merge(:password_confirmation=>"abc")
@@ -59,7 +59,7 @@ RSpec.feature "Authns", type: :feature, :js=>true do
       end
 
       scenario "clears error messages on page update" do
-        bad_props=FactoryBot.attributes_for(:user,
+        bad_props=FactoryBot.attributes_for(:user, 
                                    :email=>user_props[:email],
                                    :password=>"123")
                             .merge(:password_confirmation=>"abc")
@@ -85,12 +85,12 @@ RSpec.feature "Authns", type: :feature, :js=>true do
 
       scenario "bad email" do
         fillin_signup FactoryBot.attributes_for(:user, :email=>"yadayadayada")
-        expect(page).to have_css("input[name='signup-email'].ng-invalid-email")
+        expect(page).to have_css("input[name='signup-email'].ng-invalid-email")          
       end
       scenario "missing password" do
         fillin_signup FactoryBot.attributes_for(:user, :password=>nil)
         expect(page).to have_css("input[name='signup-password'].ng-invalid-required")
-        expect(page).to have_css("input[name='signup-password_confirmation'].ng-invalid-required")
+        expect(page).to have_css("input[name='signup-password_confirmation'].ng-invalid-required")          
       end
     end
   end

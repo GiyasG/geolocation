@@ -1,5 +1,6 @@
 /*
-* Spa Demo stylesheet
-*/
+ * SPA Demo Stylesheet
+ */
 
 @import "bootstrap";
+@import "spa-demo/layout";

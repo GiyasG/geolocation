@@ -10,8 +10,6 @@
 //= require ng-file-upload
 //= require ui-cropper
 
-
-
 //= require spa-demo/app.module
 //= require spa-demo/app.router
 
@@ -29,6 +27,14 @@
 //= require spa-demo/authz/authz.module
 //= require spa-demo/authz/authz.service
 //= require spa-demo/authz/base_policy.service
+
+//= require spa-demo/geoloc/geoloc.module
+//= require spa-demo/geoloc/geocoder.service
+//= require spa-demo/geoloc/my_location.service
+// require spa-demo/geoloc/jhu_location.config
+//= require spa-demo/geoloc/current_origin/current_origin.service
+//= require spa-demo/geoloc/current_origin/current_origin_selector.component
+
 
 //= require spa-demo/layout/layout.module
 //= require spa-demo/layout/image_query_size.service

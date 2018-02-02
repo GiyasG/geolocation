@@ -7,19 +7,13 @@ class Location
     @address=address
   end
 
-  def ==(rhs)
-    !rhs ? false : (formatted_address==rhs.formatted_address &&
+  def ==(rhs) 
+    !rhs ? false : (formatted_address==rhs.formatted_address && 
                     position===rhs.position &&
                     address==address)
   end
 
-  def ===(rhs)
-    !rhs ? false : ((formatted_address=~/#{rhs.formatted_address}/ || /#{formatted_address}/.match(rhs.formatted_address)) &&
-                    position===rhs.position &&
-                    address==address)
-  end
-
-  def to_hash
+  def to_hash 
     hash= {}
     hash[:formatted_address] = @formatted_address if @formatted_address
     hash[:position] = @position.to_hash     if @position
